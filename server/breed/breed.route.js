@@ -4,19 +4,15 @@ const express = require('express');
 const router = express.Router();
 const breedController = require('./breed.controller');
 
-router.route('/all')
-  .get(breedController.loadSearchBar);
+router.get('/all', breedController.loadSearchBar);
 //In Express, order matters. Previously had this as the last router.get and
 //it did not work because with (/:breedName) listed first it just assumed
 //(/all) was a substitute for breedName
 
-router.route('/:breedName')
-  .get(breedController.showBreedPage);
+router.get('/:breedName', breedController.showBreedPage);
 
-router.route('/search/:breedName')
-  .get(breedController.saveInputFromBreedSearch);
+router.get('/search/:breedName', breedController.saveInputFromBreedSearch);
 
-router.route('/fetch/:breedName')
-  .get(breedController.fetchBreedData);
+router.get('/fetch/:breedName', breedController.fetchBreedData);
 
 module.exports = router;
