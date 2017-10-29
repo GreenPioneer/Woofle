@@ -1,9 +1,13 @@
 'use strict';
 
-const axios = require('axios');
+module.exports = {
+  getDataFromDogCEOApi,
+  getDataFromYouTubeApi
+};
 
-//Backend API calls for DogCEO
-const DOG_CEO_BREED_URL = 'https://dog.ceo/api/breed/';
+const axios = require('axios');
+const DOG_CEO_BREED_URL = 'https://dog.ceo/api/breed/';// API FOR ?
+const YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';// API FOR ?
 
 function getDataFromDogCEOApi(searchTerm) {
   let query;
@@ -15,16 +19,13 @@ function getDataFromDogCEOApi(searchTerm) {
   }
   return axios.get(DOG_CEO_BREED_URL+query)
     .then((data) => {
-      return data.data;
+      return data.data; // Why are you not using promise.resolve ?
     })
     .catch(err => {
       console.log(`Error in fetching images from dog CEO ${err}`);
       return Promise.reject(err);
     });
 }
-
-//Backend API calls for YouTube
-const YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 
 function getDataFromYouTubeApi(searchTerm) {
   const query = {
@@ -39,15 +40,10 @@ function getDataFromYouTubeApi(searchTerm) {
   queryString = queryString.substr(0, queryString.length-1);
   return axios.get(YOUTUBE_SEARCH_URL+queryString)
     .then((data) => {
-      return data.data.items;
+      return data.data.items;  // Why are you not using promise.resolve ?
     })
     .catch(err => {
       console.log(`Error in fetching videos from YouTube ${err}`);
       return Promise.reject(err);
     });
 }
-
-module.exports = {
-  getDataFromDogCEOApi,
-  getDataFromYouTubeApi
-};
