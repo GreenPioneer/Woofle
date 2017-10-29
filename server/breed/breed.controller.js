@@ -43,6 +43,8 @@ function loadSearchBar(req, res, next) {
   res.json(breedData.dogBreedArray);
 }
 
+
+// Move this to its own file and export it in at the top
 const breedData = {
   dogBreedArray: [
     { value: 'Affenpinscher',
