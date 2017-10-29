@@ -18,6 +18,7 @@ router.route('/login')
 
 //Allow users to logout
 router.route('/logout')
+  .post(authController.logout)
   .get(authController.logout);
 
 module.exports = router;
