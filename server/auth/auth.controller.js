@@ -16,6 +16,8 @@ function showSignupForm(req, res, next) {
 }
 
 function signup(req, res, next) {
+  //look into express validator 
+  // https://github.com/greenpioneersolutions/meanstackjs/blob/master/server/modules/users/users.controller.js
   const { email, password } = req.body;
   const requiredFields = ['email', 'password'];
   //taken from the names of the inputs
@@ -47,17 +49,13 @@ function signup(req, res, next) {
     });
 }
 
-
 function showLoginForm(req, res, next) {
   res.sendFile(path.resolve('public/authpages/login.html'));
 }
 
 function login(req, res, next) {
   const { email, password } = req.body;
-  if (!email) {
-    return res.status(401).send();
-  }
-  if (!password) {
+  if (!email || !password) {
     return res.status(401).send();
   }
   User.findOne({email, password})
