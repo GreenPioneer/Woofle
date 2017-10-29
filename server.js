@@ -68,9 +68,11 @@ app.use('/', function(req, res, next) {
 
 // If we're about to 401, redirect to the login page
 app.use(function(err, req, res, next) {
+  //debug(err)
   if(401 == err.status) {
-    console.log(err);
     res.redirect('/auth/login');
+  }else{
+    res.status(500).send('error has happened')
   }
 });
 
