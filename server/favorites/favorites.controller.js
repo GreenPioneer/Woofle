@@ -14,27 +14,20 @@ function all(req, res, next) {
     .then((user) => {
       res.json(user.favorites);
     })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({message: 'Internal server error'});
-    });
+    .catch(err => next(err));
 }
 
 function addFavorite(req, res, next) {
-  var breedName = req.params.breedName;
   User.getByEmail(req.user.email)
     .then((user) => {
-      user.favorites.push(breedName);
+      user.favorites.push(req.params.breedName);
       user.favorites = _.uniq(user.favorites);
       return user.save();
     })
     .then((savedUser) => {
       return res.json(savedUser.favorites);
     })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({message: 'Internal server error'});
-    });
+    .catch(err => next(err))
 }
 
 function deleteFavorite(req, res, next) {
@@ -42,7 +35,7 @@ function deleteFavorite(req, res, next) {
   User.getByEmail(req.user.email)
     .then((user) => {
       const breedIndex = user.favorites.indexOf(breedName);
-      if (breedIndex > -1) {
+      if (breedIndex !== -1) {
         user.favorites.splice(breedIndex, 1);
       }
       return user.save();
@@ -50,12 +43,9 @@ function deleteFavorite(req, res, next) {
     .then((savedUser) => {
       return res.json(savedUser.favorites);
     })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({message: 'Internal server error'});
-    });
+     .catch(err => next(err))
 }
-
+// did you solve with public statics?
 function showFavorites (req, res, next) {
   res.sendFile(path.resolve('public/favoritespage/favorites.html'));
 }
